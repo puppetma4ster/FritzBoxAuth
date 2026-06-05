@@ -1,0 +1,17 @@
+[project]
+name = "fritzboxauth"
+version = "0.1"
+description = ""
+authors = [
+    {name = "puppetma4ster",email = "puppetma4ster@proton.me"}
+]
+requires-python = ">=3.13"
+dependencies = [
+    "typer (>=0.26.7,<0.27.0)",
+    "pyshark (>=0.6,<0.7)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
