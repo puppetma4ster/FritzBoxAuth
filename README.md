@@ -1,4 +1,4 @@
-# Fritz Box Passwort UI extrator amd recovery
+# FRITZ!Box Passwort UI extractor and recovery
 This repository explains how password authentication works on the FritzBox login interface, how to extract hashes,
 and how to calculate them.
 
@@ -20,14 +20,14 @@ Form item: "response" = "44297fd0839e1e579955b32e4ca19396$1b939aea364ecd3fbe335e
     Key: response
     Value: 44297fd0839e1e579955b32e4ca19396$1b939aea364ecd3fbe335e4ccfcecf07d0e508b853af9812ed884538517d6733
 ```
-## PBKDF2-based version
+## PBKDF2-based scheme
 The use of the PBKDF2-based authentication scheme is indicated by the challenge prefix.
 If the challenge string starts with "2$", the PBKDF2-HMAC-SHA256-based mechanism is used.
 
 ### Challenge structure
 The challenge is structured as follows:
 ```commandline
-challange = <Version>$<IterationNumber1>$<Salt1>$<IterationNumber2>$<Salt2>
+challenge = <Version>$<IterationNumber1>$<Salt1>$<IterationNumber2>$<Salt2>
 ```
 > [NOTE]
 > Observations indicate that salt2 changes on each login attempt,
@@ -37,28 +37,28 @@ challange = <Version>$<IterationNumber1>$<Salt1>$<IterationNumber2>$<Salt2>
 > - fixed per device (FritzBox instance-specific), or
 > - constant across firmware versions.
 
-### Hashing algorythm
-The encryption works as follows:
-\<hash1\> = pbdkf2_hmac_sha256(\<password\>, \<salt1\>, \<iter1\>)
-<response> = <salt2>$ + pbdkf2_hmac_sha256(\<hash1\>, \<salt2\>, \<iter2\>)
+### Hashing algorithm
+The key derivation works as follows:
+\<hash1\> = pbkdf2_hmac_sha256(\<password\>, \<salt1\>, \<iter1\>)
+<response> = <salt2>$ + pbkdf2_hmac_sha256(\<hash1\>, \<salt2\>, \<iter2\>)
 
 
 
 
-## MD5-based version
-MD5-based version is us
-### Challange structure
+## MD5-based scheme
+The MD5-based scheme is indicated by an 8-character hexadecimal challenge, unlike the PBKDF2-based scheme, which uses a challenge starting with "2$".
+### Challenge structure
 The challenge in MD5-based verification consists of an 8-character hex string:
 ```commandline
-challange = <salt>
+challenge = <salt>
 Example: f7719497
 ```
 A unique challenge is generated for every login attempt
 
-### Hashing algorythm
-comming soon...
+### Hashing algorithm
+coming soon...
 
-## Programm usage
+## Program usage
 The program currently provides two main functions:
 1. Extraction of FritzBox authentication hashes from PCAPNG files
 2. Password recovery using a wordlist-based approach
